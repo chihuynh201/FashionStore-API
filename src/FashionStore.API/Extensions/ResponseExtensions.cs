@@ -18,7 +18,16 @@ public static class ResponseExtensions
 
     public static ObjectResult AsObjectResult<T>(this ActionResponse<PagedResponse<T>> response)
     {
-        var rs = ActionResponse.CreateResponse(response.CodeStatus, response.Data, response.Message, count: response.TotalCount, pages: response.TotalPages, summary: response.Summary);
+        PagedResponse<T> pagedData = (PagedResponse<T>)response.Data;
+
+        var rs = ActionResponse.CreateResponse(
+            response.CodeStatus,
+            pagedData.Items,
+            response.Message,
+            count: pagedData.TotalCount,
+            pages: pagedData.TotalPages,
+            summary: response.Summary
+        );
 
         return rs.AsObjectResult();
     }
