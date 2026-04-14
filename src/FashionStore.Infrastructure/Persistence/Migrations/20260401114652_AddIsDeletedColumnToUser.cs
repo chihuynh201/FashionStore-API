@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace FashionStore.Infrastructure.Migrations
+namespace FashionStore.Infrastructure.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class AddIsDeletedColumnToUser : Migration

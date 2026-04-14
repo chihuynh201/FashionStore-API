@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace FashionStore.Infrastructure.Migrations
+namespace FashionStore.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(FashionStoreDbContext))]
     [Migration("20260330070115_Initial")]
