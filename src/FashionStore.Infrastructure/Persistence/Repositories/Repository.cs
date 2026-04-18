@@ -19,24 +19,40 @@ internal class Repository<T> : IRepository<T> where T : BaseEntity
         return await Table.FindAsync(id);
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync()
+    public async Task<IEnumerable<T>> GetAllAsync(bool tracking = false)
     {
+        if (tracking)
+        {
+            return await Table.ToListAsync();
+        }
         return await Table.AsNoTracking().ToListAsync();
     }
 
-    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression)
+    public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression, bool tracking = false)
     {
+        if (tracking)
+        {
+            return await Table.Where(expression).ToListAsync();
+        }
         return await Table.AsNoTracking().Where(expression).ToListAsync();
     }
 
-    public async Task<T?> GetFirstOrDefaultAsync()
+    public async Task<T?> GetFirstOrDefaultAsync(bool tracking = false)
     {
-        return await Table.FirstOrDefaultAsync();
+        if (tracking)
+        {
+            return await Table.FirstOrDefaultAsync();
+        }
+        return await Table.AsNoTracking().FirstOrDefaultAsync();
     }
 
-    public async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+    public async Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression, bool tracking = false)
     {
-        return await Table.FirstOrDefaultAsync(expression);
+        if (tracking)
+        {
+            return await Table.FirstOrDefaultAsync(expression);
+        }
+        return await Table.AsNoTracking().FirstOrDefaultAsync(expression);
     }
 
 
@@ -68,5 +84,10 @@ internal class Repository<T> : IRepository<T> where T : BaseEntity
             return Table.AnyAsync();
         }
         return Table.AnyAsync(expression);
+    }
+
+    public void DeleteRange(IEnumerable<T> entities)
+    {
+        Table.RemoveRange(entities);
     }
 }

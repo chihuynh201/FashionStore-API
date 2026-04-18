@@ -1,4 +1,4 @@
-﻿using FashionStore.Application.Interfaces;
+using FashionStore.Application.Interfaces;
 using FashionStore.Domain.Entities;
 
 namespace FashionStore.Infrastructure.Persistence.Repositories;
@@ -11,9 +11,14 @@ internal class UnitOfWork : IUnitOfWork
     {
         _context = context;
         UserRepository = new UserRepository(_context);
+        ProductAttributeRepository = new ProductAttributeRepository(_context);
+        AttributeValueRepository = new AttributeValueRepository(_context);
     }
 
     public IUserRepository UserRepository { get; private set; }
+    public IProductAttributeRepository ProductAttributeRepository { get; private set; }
+
+    public IAttributeValueRepository AttributeValueRepository { get; private set; }
 
     public void Dispose()
     {

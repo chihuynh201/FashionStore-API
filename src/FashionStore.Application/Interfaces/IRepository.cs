@@ -15,16 +15,16 @@ public interface IRepository<T> where T : BaseEntity
     /// Get all elements
     /// </summary>
     /// <returns></returns>
-    Task<IEnumerable<T>> GetAllAsync();
-    Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression);
+    Task<IEnumerable<T>> GetAllAsync(bool tracking = false);
+    Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> expression, bool tracking = false);
 
     /// <summary>
     /// Get first element 
     /// </summary>
     /// <param name="expression"></param>
     /// <returns></returns>
-    Task<T?> GetFirstOrDefaultAsync();
-    Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression);
+    Task<T?> GetFirstOrDefaultAsync(bool tracking = false);
+    Task<T?> GetFirstOrDefaultAsync(Expression<Func<T, bool>> expression, bool tracking = false);
     Task<bool> AnyAsync(Expression<Func<T, bool>> expression = null);
     /// <summary>
     /// Add new element to database 
@@ -47,4 +47,5 @@ public interface IRepository<T> where T : BaseEntity
     /// <param name="entity"></param>
     /// <returns></returns>
     void Delete(T entity);
+    void DeleteRange(IEnumerable<T> entities);
 }
