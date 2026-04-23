@@ -13,5 +13,7 @@ public class Product : BaseEntity
 
     public Category Category { get; set; }
     public ICollection<Sku> Skus { get; set; }
+    public void Deactivate() => IsEnabled = false;
+    public void Activate() => IsEnabled = true;
 
 }
