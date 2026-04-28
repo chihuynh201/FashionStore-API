@@ -3,6 +3,7 @@ using FashionStore.Application.Interfaces;
 using FashionStore.Infrastructure.Authentication;
 using FashionStore.Infrastructure.Persistence;
 using FashionStore.Infrastructure.Persistence.Repositories;
+using FashionStore.Infrastructure.Services.Azure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,5 +23,6 @@ public static class DependencyInjection
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
 
+        services.AddAzureBlobStorage(configuration);
     }
 }

@@ -22,6 +22,7 @@ public class FashionStoreDbContext : DbContext
     public DbSet<CategoryAttribute> CategoryAttributes { get; set; }
     public DbSet<SkuAttributeValue> SkuAttributeValues { get; set; }
     public DbSet<SkuImage> SkuImages { get; set; }
+    public DbSet<FileUpload> FileUploads { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
