@@ -12,6 +12,8 @@ The project is structured for scalability, maintainability, and testability.
 - **Mapster** – Lightweight object mapping
 - **xUnit** – Unit testing
 - **Serilog** – Structured logging
+- **Azure Blob Storage** – Cloud storage for files and product images
+- **Azure App Service** – Scalable PaaS for web hosting
 
 ## 📂 Architecture & Project Structure
 
@@ -29,20 +31,20 @@ src
 │   └── Extensions/                  # Helpers, extensions
 
 ├── FashionStore.Application/        # Application Layer (Business logic, CQRS)
-│   ├── Features/                    # Feature-based structure
+│   ├── Features/                    # CQRS Handlers
 │   │   └── Users/
 │   │       ├── Commands/            # Write operations
 │   │       └── Queries/             # Read operations
-│   ├── Interfaces/                  # Abstractions
+│   ├── Interfaces/                  # Abstractions (IRepository)
 │   └── Common/
-│       ├── DTOs/                    # Request/Response models
+│       ├── DTOs/                    # Data Transfer Objects
 │       ├── Mappings/                # Mapster config
 │       ├── Enums/                   # Enums
-│       └── Behaviors/               # Pipeline (Validation, Logging)
+│       └── Behaviors/               # MediatR Pipeline Behaviors (Validation, Logging)
 
 ├── FashionStore.Domain/             # Domain Layer (Core business)
 │   ├── Entities/                    # Domain entities
-│   ├── Enums/                       # Enums
+│   ├── Enums/                       # Domain Enums
 │   └── ValueObjects/                # Value Objects (DDD)
 
 └── FashionStore.Infrastructure/     # Infrastructure Layer
@@ -54,7 +56,10 @@ src
 │   └── Services/                    # External services (SMS, Email, Third-party APIs)
 
 test/
-└── Tests                            # Test project
+  ├── Domain.Tests/
+  ├── Application.Tests/
+  └── Infrastructure.Tests/
+
 </pre>
 
 ## ⚙️ Getting Started
@@ -73,3 +78,6 @@ dotnet build
 cd src/FashionStore.API
 dotnet run
 ```
+## 📚 API Reference
+
+* **Development:** [Link Swagger](https://fashionstoreapi29-c0c0e9h2eja6cbc6.centralus-01.azurewebsites.net/swagger/index.html)
