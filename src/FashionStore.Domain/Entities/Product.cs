@@ -6,12 +6,13 @@ public class Product : BaseEntity
     public string ProductName { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
-    public string Thumbnail { get; set; }
+    public int? FileId { get; set; }
     public int CategoryId { get; set; }
     public bool IsEnabled { get; set; }
     public bool IsDeleted { get; set; }
 
     public Category Category { get; set; }
+    public FileUpload File { get; set; }
     public ICollection<Sku> Skus { get; set; }
     public void Deactivate() => IsEnabled = false;
     public void Activate() => IsEnabled = true;
