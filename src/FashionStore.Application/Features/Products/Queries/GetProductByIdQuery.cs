@@ -2,7 +2,6 @@ using FashionStore.Application.Common.DTOs;
 using FashionStore.Application.Common.DTOs.Response;
 using FashionStore.Application.Common.Enums;
 using FashionStore.Application.Interfaces;
-using Mapster;
 using MediatR;
 
 namespace FashionStore.Application.Features.Products.Queries;
@@ -21,13 +20,11 @@ public class GetProductByIdQueryHandler : IRequestHandler<GetProductByIdQuery, A
     public async Task<ActionResponse<ProductDto>> Handle(GetProductByIdQuery request, CancellationToken cancellationToken)
     {
         var product = await _unitOfWork.ProductRepository.GetByIdWithCategoryAsync(request.ProductId);
-        if (product == null || product.IsDeleted)
+        if (product == null)
         {
             return ActionResponse<ProductDto>.CreateResponse(ResponseCode.NotFound, message: "Product not found.");
         }
 
-        var dto = product.Adapt<ProductDto>();
-
-        return ActionResponse<ProductDto>.Success(dto);
+        return ActionResponse<ProductDto>.Success(product);
     }
 }

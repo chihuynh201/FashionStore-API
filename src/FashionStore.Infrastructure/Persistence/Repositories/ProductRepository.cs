@@ -18,6 +18,7 @@ internal class ProductRepository : Repository<Product>, IProductRepository
     {
         var query = _context.Products
             .Include(p => p.Category)
+            .Include(p => p.File)
             .Where(p => !queryModel.CategoryId.HasValue || p.CategoryId == queryModel.CategoryId)
             .Where(p => !p.IsDeleted)
             .Where(p => string.IsNullOrEmpty(queryModel.KeySearch) || p.ProductName.Contains(queryModel.KeySearch))
@@ -44,7 +45,7 @@ internal class ProductRepository : Repository<Product>, IProductRepository
                 ProductName = p.ProductName,
                 Description = p.Description,
                 Price = p.Price,
-                Thumbnail = p.Thumbnail,
+                Thumbnail = p.File != null ? p.File.Url : null,
                 CategoryId = p.CategoryId,
                 CategoryName = p.Category.CategoryName,
                 IsEnabled = p.IsEnabled
@@ -54,10 +55,21 @@ internal class ProductRepository : Repository<Product>, IProductRepository
         return PagedResponse<ProductDto>.Create(items, totalCount, queryModel.GetPagination());
     }
 
-    public async Task<Product?> GetByIdWithCategoryAsync(int id)
+    public async Task<ProductDto?> GetByIdWithCategoryAsync(int id)
     {
         return await _context.Products
-            .Include(p => p.Category)
-            .FirstOrDefaultAsync(p => p.ProductId == id);
+            .Where(p => p.ProductId == id && !p.IsDeleted)
+            .Select(p => new ProductDto
+            {
+                ProductId = p.ProductId,
+                ProductName = p.ProductName,
+                Description = p.Description,
+                Price = p.Price,
+                Thumbnail = p.File != null ? p.File.Url : null,
+                CategoryId = p.CategoryId,
+                CategoryName = p.Category.CategoryName,
+                IsEnabled = p.IsEnabled
+            })
+            .FirstOrDefaultAsync();
     }
 }

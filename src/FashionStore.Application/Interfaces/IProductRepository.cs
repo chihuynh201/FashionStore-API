@@ -8,5 +8,5 @@ namespace FashionStore.Application.Interfaces;
 public interface IProductRepository : IRepository<Product>
 {
     Task<PagedResponse<ProductDto>> GetPagedAsync(ProductQueryModel queryModel);
-    Task<Product?> GetByIdWithCategoryAsync(int id);
+    Task<ProductDto?> GetByIdWithCategoryAsync(int id);
 }

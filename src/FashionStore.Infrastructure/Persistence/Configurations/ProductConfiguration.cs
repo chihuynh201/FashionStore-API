@@ -21,13 +21,14 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Price)
             .HasColumnType("decimal(18,2)");
 
-        builder.Property(p => p.Thumbnail)
-            .IsRequired(false)
-            .HasMaxLength(500);
-
         builder.HasOne(p => p.Category)
             .WithMany(c => c.Products)
             .HasForeignKey(p => p.CategoryId);
+
+        builder.HasOne(p => p.File)
+            .WithMany()
+            .HasForeignKey(p => p.FileId)
+            .OnDelete(DeleteBehavior.Restrict);
 
     }
 }

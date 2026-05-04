@@ -41,7 +41,6 @@ public class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryComman
         }
 
         var category = request.Adapt<Category>();
-        category.IsEnabled = true;
 
         await _unitOfWork.CategoryRepository.AddAsync(category);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

@@ -11,7 +11,7 @@ public record CreateProductCommand : ICommand<int>
     public string ProductName { get; init; }
     public string Description { get; init; }
     public decimal Price { get; init; }
-    public string Thumbnail { get; init; }
+    public int? FileId { get; init; }
     public int CategoryId { get; init; }
 }
 
