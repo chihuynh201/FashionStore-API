@@ -14,4 +14,5 @@ public interface IUnitOfWork : IDisposable
     IAttributeValueRepository AttributeValueRepository { get; }
     ICategoryRepository CategoryRepository { get; }
     IProductRepository ProductRepository { get; }
+    ICategoryAttributeRepository CategoryAttributeRepository { get; }
 }

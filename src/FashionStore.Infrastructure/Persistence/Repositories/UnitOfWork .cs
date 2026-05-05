@@ -17,6 +17,7 @@ internal class UnitOfWork : IUnitOfWork
         AttributeValueRepository = new AttributeValueRepository(_context);
         CategoryRepository = new CategoryRepository(_context);
         ProductRepository = new ProductRepository(_context);
+        CategoryAttributeRepository = new CategoryAttributeRepository(_context);
     }
 
     public IUserRepository UserRepository { get; private set; }
@@ -25,6 +26,7 @@ internal class UnitOfWork : IUnitOfWork
     public IAttributeValueRepository AttributeValueRepository { get; private set; }
     public ICategoryRepository CategoryRepository { get; private set; }
     public IProductRepository ProductRepository { get; private set; }
+    public ICategoryAttributeRepository CategoryAttributeRepository { get; private set; }
 
     public void Dispose()
     {
