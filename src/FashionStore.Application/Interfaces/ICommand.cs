@@ -1,7 +1,7 @@
 ﻿using FashionStore.Application.Common.DTOs.Response;
 using MediatR;
 
-namespace FashionStore.Application.Features;
+namespace FashionStore.Application.Interfaces;
 public interface ICommand : IRequest<ActionResponse>
 {
 }

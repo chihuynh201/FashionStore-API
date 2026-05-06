@@ -11,6 +11,29 @@ internal class CategoryAttributeRepository : Repository<CategoryAttribute>, ICat
     {
     }
 
+    public async Task<List<CategoryWithAttributesDto>> GetAllCategoryAttributes(string search = null)
+    {
+        return await _context.Categories
+            .AsNoTracking()
+            .Where(category => string.IsNullOrEmpty(search) || category.CategoryName.Contains(search))
+            .OrderBy(category => category.CategoryName)
+            .Select(category => new CategoryWithAttributesDto
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName,
+                Attributes = category.CategoryAttributes
+                    .OrderBy(ca => ca.ProductAttribute.AttributeName)
+                    .Select(ca => new CategoryAttributeSummaryDto
+                    {
+                        CategoryAttributeId = ca.CategoryAttributeId,
+                        ProductAttributeId = ca.ProductAttributeId,
+                        AttributeName = ca.ProductAttribute.AttributeName
+                    })
+                    .ToList()
+            })
+            .ToListAsync();
+    }
+
     public async Task<List<CategoryAttributeDto>> GetByCategoryIdAsync(int categoryId)
     {
         return await _context.CategoryAttributes
@@ -21,7 +44,16 @@ internal class CategoryAttributeRepository : Repository<CategoryAttribute>, ICat
             {
                 CategoryAttributeId = ca.CategoryAttributeId,
                 ProductAttributeId = ca.ProductAttributeId,
-                AttributeName = ca.ProductAttribute.AttributeName
+                AttributeName = ca.ProductAttribute.AttributeName,
+                AttributeValues = ca.ProductAttribute.AttributeValues
+                    .OrderBy(av => av.DisplayOrder)
+                    .Select(av => new AttributeValueDto
+                    {
+                        AttributeValueId = av.AttributeValueId,
+                        Value = av.Value,
+                        DisplayOrder = av.DisplayOrder
+                    })
+                    .ToList()
             })
             .ToListAsync();
     }

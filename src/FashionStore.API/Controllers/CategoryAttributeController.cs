@@ -9,7 +9,7 @@ namespace FashionStore.API.Controllers;
 
 [ApiController]
 [Authorize]
-[Route("api/[controller]/{categoryId:int:min(1)}")]
+[Route("api/[controller]")]
 public class CategoryAttributeController : StoreBaseController
 {
     private readonly IMediator _mediator;
@@ -20,13 +20,20 @@ public class CategoryAttributeController : StoreBaseController
     }
 
     [HttpGet]
+    public async Task<IActionResult> GetAllCategoryWithAttributes([FromQuery] string search = null)
+    {
+        var result = await _mediator.Send(new GetAllCategoryAttributesQuery(search));
+        return result.AsObjectResult();
+    }
+
+    [HttpGet("{categoryId:int:min(1)}")]
     public async Task<IActionResult> GetAttributes(int categoryId)
     {
         var result = await _mediator.Send(new GetAttributesByCategoryQuery(categoryId));
         return result.AsObjectResult();
     }
 
-    [HttpPost]
+    [HttpPost("{categoryId:int:min(1)}")]
     public async Task<IActionResult> AssignAttributes(int categoryId, [FromBody] List<int> attributeIds)
     {
         var result = await _mediator.Send(new AssignCategoryAttributesCommand(categoryId, attributeIds));
